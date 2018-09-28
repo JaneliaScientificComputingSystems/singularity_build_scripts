@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: funkey/division_detection:v0.1
+
+%runscript
+
+    exec /usr/bin/python "$@"
+
+%environment
+
+    export CUDA_HOME=/usr/local/cuda
+    CUDA_LIB=$CUDA_HOME/lib64
+    CUDA_BIN=$CUDA_HOME/bin
+    export LD_LIBRARY_PATH=$CUDA_LIB
+    export PATH=$CUDA_BIN:$PATH
+
+%post
