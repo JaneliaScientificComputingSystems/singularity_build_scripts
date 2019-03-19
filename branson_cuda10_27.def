@@ -1,0 +1,53 @@
+BootStrap: debootstrap
+OSVersion: xenial
+MirrorURL: http://us.archive.ubuntu.com/ubuntu/
+%runscript
+ 
+%environment
+export CUDA_HOME=/usr/local/cuda
+CUDA_LIB=$CUDA_HOME/lib64
+CUDA_INCLUDE=$CUDA_HOME/include
+CUDA_BIN=$CUDA_HOME/bin
+export LD_LIBRARY_PATH=$CUDA_LIB
+export PATH=$CUDA_BIN:$PATH
+%post
+echo "deb http://us.archive.ubuntu.com/ubuntu xenial main
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial main restricted
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial-updates main restricted
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial universe
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial-updates universe
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial multiverse
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial-updates multiverse
+deb http://yum.int.janelia.org:8080/ubuntu/ xenial-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu xenial-security main restricted
+deb http://security.ubuntu.com/ubuntu xenial-security universe
+deb http://security.ubuntu.com/ubuntu xenial-security multiverse
+deb http://archive.canonical.com/ xenial partner" > /etc/apt/sources.list
+apt-get update
+apt-get -y install libopencv-dev build-essential checkinstall cmake pkg-config yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils
+apt-get -y install git libhdf5-dev
+apt-get -y install python2.7 wget vim perl gcc cmake python-tk
+wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate
+python2.7 get-pip.py
+pip install virtualenv
+mkdir /opt/venv
+mkdir -p /groups/branson/bransonlab /nrs/branson /groups/branson/home /scratch
+virtualenv -p /usr/bin/python2.7 /opt/venv
+. /opt/venv/bin/activate
+pip install sklearn future lmdb scikit-image hdf5storage munkres
+pip install python-gflags GitPython h5py numpy scipy matplotlib https://download.pytorch.org/whl/cu100/torch-1.0.1.post2-cp27-cp27mu-linux_x86_64.whl tensorflow-gpu
+pip install imageio torchvision tqdm
+git clone git://source.ffmpeg.org/ffmpeg.git /opt/ffmpeg
+cd /opt/ffmpeg
+/opt/ffmpeg/configure --enable-nonfree --enable-pic --enable-shared
+make
+make install
+git clone https://github.com/Itseez/opencv.git /opt/opencv
+cd /opt/opencv
+mkdir /opt/opencv/build
+cd /opt/opencv/build
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
+make -j2
+make install
+ln -s /opt/opencv/build/lib/cv2.so /opt/venv/lib/python2.7/site-packages/cv2.so
+#ln -s /opt/opencv/build/lib/cv2.so /opt/venv_compatible/lib/python2.7/site-packages/cv2.so
