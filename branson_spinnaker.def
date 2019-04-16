@@ -62,7 +62,7 @@ ln -s /opt/opencv/build/lib/cv2.so /opt/venv/lib/python3.5/site-packages/cv2.so
 mkdir /opt/spinnaker
 mkdir /opt/qt
 cd ~
-apt --reinstall install libqt5dbus5 libqt5widgets5 libqt5network5 libqt5gui5 libqt5corea5a libxcb-xinerama0
+apt --reinstall -y install libqt5dbus5 libqt5widgets5 libqt5network5 libqt5gui5 libqt5core5a libxcb-xinerama0
 wget http://qt.mirror.constant.com/archive/online_installers/3.1/qt-unified-linux-x64-3.1.0-online.run
 chmod 700 ~/qt-unified-linux-x64-3.1.0-online.run
 #export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb && ~/qt-unified-linux-x64-3.1.0-online.run
