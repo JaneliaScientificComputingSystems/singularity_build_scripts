@@ -27,7 +27,7 @@ apt-get update
 apt-get -y install libopencv-dev build-essential checkinstall cmake pkg-config yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python3.5-dev python3.5-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils
 apt-get -y install git
 apt-get -y install python3.5 wget vim perl gcc cmake python3.5-tk
-apt-get install libavcodec-ffmpeg56 libavformat-ffmpeg56 libswscale-ffmpeg3 libswresample-ffmpeg1 libavutil-ffmpeg54 libusb-1.0-0
+apt-get install libavcodec-ffmpeg56 libavformat-ffmpeg56 libswscale-ffmpeg3 libswresample-ffmpeg1 libavutil-ffmpeg54 libusb-1.0-0 libhdf5-dev
 
 
 apt-get -y install libxtst6
@@ -61,8 +61,10 @@ make install
 ln -s /opt/opencv/build/lib/cv2.so /opt/venv/lib/python3.5/site-packages/cv2.so
 mkdir /opt/spinnaker
 mkdir /opt/qt
-cd ~
+mkdir /opt/mntqt
+chmod 777 /opt/qt /opt/mntqt
+cd /opt/mntqt
 apt --reinstall -y install libqt5dbus5 libqt5widgets5 libqt5network5 libqt5gui5 libqt5core5a libxcb-xinerama0
 wget http://qt.mirror.constant.com/archive/online_installers/3.1/qt-unified-linux-x64-3.1.0-online.run
-chmod 700 ~/qt-unified-linux-x64-3.1.0-online.run
+chmod 700 /opt/mntqt/qt-unified-linux-x64-3.1.0-online.run
 #export QT_XKB_CONFIG_ROOT=/usr/share/X11/xkb && ~/qt-unified-linux-x64-3.1.0-online.run
