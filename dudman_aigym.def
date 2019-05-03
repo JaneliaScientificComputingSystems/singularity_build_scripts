@@ -1,0 +1,41 @@
+BootStrap: debootstrap
+OSVersion: bionic
+MirrorURL: http://us.archive.ubuntu.com/ubuntu/
+%runscript
+ 
+%environment
+export CUDA_HOME=/usr/local/cuda
+CUDA_LIB=$CUDA_HOME/lib64
+CUDA_INCLUDE=$CUDA_HOME/include
+CUDA_BIN=$CUDA_HOME/bin
+export LD_LIBRARY_PATH=$CUDA_LIB
+export PATH=$CUDA_BIN:$PATH
+%post
+echo "deb http://us.archive.ubuntu.com/ubuntu bionic main
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic main restricted
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic-updates main restricted
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic universe
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic-updates universe
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic multiverse
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic-updates multiverse
+deb http://yum.int.janelia.org:8080/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted
+deb http://security.ubuntu.com/ubuntu bionic-security universe
+deb http://security.ubuntu.com/ubuntu bionic-security multiverse
+deb http://archive.canonical.com/ bionic partner" > /etc/apt/sources.list
+apt update
+apt -y install git
+apt -y install python3.6 wget vim perl gcc cmake python3-distutils python3-dev
+
+wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate
+python3.6 get-pip.py
+pip3 install virtualenv
+mkdir /opt/venv
+mkdir -p /groups/dudman/home
+virtualenv -p /usr/bin/python3.6 /opt/venv
+. /opt/venv/bin/activate
+pip3 install sklearn future lmdb scikit-image hdf5storage
+pip3 install python-gflags GitPython h5py numpy scipy matplotlib tensorflow-gpu
+pip3 install imageio munkres tqdm
+pip3 install gym
+
