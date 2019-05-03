@@ -1,5 +1,5 @@
-IMG="/singularity/images/branson_cuda10.img"
-SIMG="/singularity/images/branson_cuda10.simg"
+IMG="/singularity/images/branson_cuda10_c3d.img"
+SIMG="/singularity/images/branson_cuda10_c3d.simg"
 DEF="branson_cuda10.def"
 singularity build -s $IMG $DEF
 singularity exec -B /singularity/nvidia:/mnt -w $IMG sh /mnt/cuda_10.0.130_410.48_linux.run --toolkit --silent
