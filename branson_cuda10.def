@@ -51,7 +51,6 @@ make
 make install
 git clone https://github.com/Itseez/opencv.git /opt/opencv
 cd /opt/opencv
-git checkout 33b765d7979fd8a6038026aa44f6ff1a9c082b7b
 mkdir /opt/opencv/build
 cd /opt/opencv/build
 #cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
