@@ -1,3 +1,4 @@
+#!/bin/sh
 IMG="/singularity/images/boehmc_keras.img"
 SIMG="/singularity/images/boehmc_keras.simg"
 DEF="boehmc_keras.def"

@@ -34,7 +34,7 @@ mkdir /opt/venv
 mkdir -p /groups/lee/home
 virtualenv -p /usr/bin/python3.6 /opt/venv
 . /opt/venv/bin/activate
-pip3 install sklearn future lmdb scikit-image hdf5storage
+pip3 install sklearn future lmdb scikit-image hdf5storage random
 pip3 install python-gflags GitPython h5py numpy scipy matplotlib tensorflow-gpu
 pip3 install imageio munkres tqdm
 pip3 install keras
