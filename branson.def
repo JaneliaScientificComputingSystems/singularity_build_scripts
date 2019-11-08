@@ -25,7 +25,7 @@ deb http://security.ubuntu.com/ubuntu xenial-security multiverse
 deb http://archive.canonical.com/ xenial partner" > /etc/apt/sources.list
 apt-get update
 apt-get -y install libopencv-dev build-essential checkinstall cmake pkg-config yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils
-apt-get -y install git
+apt-get -y install git qtbase5-dev qtdeclarative5-dev
 apt-get -y install python2.7 wget vim perl gcc cmake python-tk
 wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate
 python2.7 get-pip.py
@@ -37,7 +37,7 @@ virtualenv -p /usr/bin/python2.7 /opt/venv
 virtualenv -p /usr/bin/python2.7 /opt/venv_compatible
 . /opt/venv/bin/activate
 pip install sklearn future lmdb 
-pip install python-gflags GitPython h5py numpy scipy matplotlib http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl tensorflow-gpu
+pip install python-gflags GitPython h5py numpy scipy matplotlib http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp27-cp27mu-manylinux1_x86_64.whl tensorflow-gpu==1.0
 pip install torchvision
 . /opt/venv_compatible/bin/activate
 pip install sklearn 

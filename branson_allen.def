@@ -25,18 +25,29 @@ deb http://security.ubuntu.com/ubuntu xenial-security multiverse
 deb http://archive.canonical.com/ xenial partner" > /etc/apt/sources.list
 apt-get update
 apt-get -y install libopencv-dev build-essential checkinstall cmake pkg-config yasm libjpeg-dev libjasper-dev libavcodec-dev libavformat-dev libswscale-dev libdc1394-22-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev python-dev python-numpy libtbb-dev libqt4-dev libgtk2.0-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev libvorbis-dev libxvidcore-dev x264 v4l-utils
-apt-get -y install git libhdf5-dev qtbase5-dev qtdeclarative5-dev
-apt-get -y install python2.7 wget vim perl gcc cmake python-tk
+apt-get -y install git
+apt-get -y install python3.5 wget vim perl gcc cmake python-tk qtbase5-dev qtdeclarative5-dev
+apt-get -y install python3-dev
+
+apt-get -y install libxtst6
+mkdir /pycharm-src && cd /pycharm-src
+wget https://download-cf.jetbrains.com/python/pycharm-community-2018.3.4.tar.gz
+tar -xvzf pycharm-community-2018.3.4.tar.gz
+
 wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate
-python2.7 get-pip.py
+python3.5 get-pip.py
 pip install virtualenv
 mkdir /opt/venv
 mkdir -p /groups/branson/bransonlab /nrs/branson /groups/branson/home /scratch
-virtualenv -p /usr/bin/python2.7 /opt/venv
+virtualenv -p /usr/bin/python3.5 /opt/venv
 . /opt/venv/bin/activate
-pip install sklearn future lmdb scikit-image hdf5storage munkres
-pip install python-gflags GitPython h5py numpy scipy matplotlib http://download.pytorch.org/whl/cu90/torch-0.4.0-cp27-cp27mu-linux_x86_64.whl tensorflow-gpu
-pip install imageio torchvision tqdm
+locale-gen en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+cd /tmp
+pip install tk-tools
+pip install -r /tmp/reqs.txt 
+pip install pycocotools
+pip install --upgrade git+https://github.com/tensorpack/tensorpack.git
 git clone git://source.ffmpeg.org/ffmpeg.git /opt/ffmpeg
 cd /opt/ffmpeg
 /opt/ffmpeg/configure --enable-nonfree --enable-pic --enable-shared
@@ -49,5 +60,24 @@ cd /opt/opencv/build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON -D CUDA_CUDA_LIBRARY=/usr/local/cuda/lib64/stubs/libcuda.so ..
 make -j2
 make install
-ln -s /opt/opencv/build/lib/cv2.so /opt/venv/lib/python2.7/site-packages/cv2.so
+ln -s /opt/opencv/build/lib/cv2.so /opt/venv/lib/python3.5/site-packages/cv2.so
+
+cd /tmp/
+wget https://www.riverbankcomputing.com/static/Downloads/sip/4.19.15/sip-4.19.15.tar.gz
+tar -xvf sip-4.19.15.tar.gz
+cd sip-4.19.15/
+python configure.py -d /opt/venv/lib/python3.5/site-packages/
+make
+make install
+make clean
+
+cd /tmp/
+wget https://managedway.dl.sourceforge.net/project/pyqt/PyQt4/PyQt-4.12.3/PyQt4_gpl_x11-4.12.3.tar.gz
+tar -xvf PyQt4_gpl_x11-4.12.3.tar.gz
+cd PyQt4_gpl_x11-4.12.3
+python configure.py --destdir /opt/venv/lib/python3.5/site-packages/ --qmake /usr/bin/qmake-qt4 --confirm-license
+make
+make install
+make clean
+
 #ln -s /opt/opencv/build/lib/cv2.so /opt/venv_compatible/lib/python2.7/site-packages/cv2.so
